@@ -281,6 +281,16 @@ enum bpf_func_id {
 	 */
 	BPF_FUNC_perf_event_output,
 	BPF_FUNC_skb_load_bytes,
+    /**
+	 * bpf_csum_diff(from, from_size, to, to_size, seed) - calculate csum diff
+	 * @from: raw from buffer
+	 * @from_size: length of from buffer
+	 * @to: raw to buffer
+	 * @to_size: length of to buffer
+	 * @seed: optional seed
+	 * Return: csum result
+	 */
+	BPF_FUNC_csum_diff,
 	__BPF_FUNC_MAX_ID,
 };
 
