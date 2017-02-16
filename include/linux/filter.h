@@ -465,6 +465,7 @@ void sk_filter_uncharge(struct sock *sk, struct sk_filter *fp);
 u64 __bpf_call_base(u64 r1, u64 r2, u64 r3, u64 r4, u64 r5);
 
 struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog);
+void bpf_jit_compile(struct bpf_prog *prog);
 bool bpf_helper_changes_skb_data(void *func);
 
 struct bpf_prog *bpf_patch_insn_single(struct bpf_prog *prog, u32 off,
@@ -479,7 +480,6 @@ bpf_jit_binary_alloc(unsigned int proglen, u8 **image_ptr,
 		     bpf_jit_fill_hole_t bpf_fill_ill_insns);
 void bpf_jit_binary_free(struct bpf_binary_header *hdr);
 
-void bpf_jit_compile(struct bpf_prog *fp);
 void bpf_jit_free(struct bpf_prog *fp);
 
 static inline void bpf_jit_dump(unsigned int flen, unsigned int proglen,
@@ -493,10 +493,6 @@ static inline void bpf_jit_dump(unsigned int flen, unsigned int proglen,
 			       16, 1, image, proglen, false);
 }
 #else
-static inline void bpf_jit_compile(struct bpf_prog *fp)
-{
-}
-
 static inline void bpf_jit_free(struct bpf_prog *fp)
 {
 	bpf_prog_unlock_free(fp);
