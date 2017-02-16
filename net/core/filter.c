@@ -1038,7 +1038,7 @@ static struct bpf_prog *bpf_prepare_filter(struct bpf_prog *fp,
 	/* Probe if we can JIT compile the filter and if so, do
 	 * the compilation of the filter.
 	 */
-	bpf_jit_compile(fp);
+	bpf_int_jit_compile(fp);
 
 	/* JIT compiler couldn't process this filter, so do the
 	 * internal BPF translation for the optimized interpreter.
