@@ -77,7 +77,7 @@ static int ant_parse_dt(struct device *dev, struct ant_check_info *pdata)
 #ifdef CONFIG_ANT_SYS
 static ssize_t ant_state_show(struct class *class,
 		struct class_attribute *attr, char *buf)
-{	
+{
 	int state;
 	if (global_ant_info->ant_check_state) {
 		state = 3;
@@ -89,9 +89,9 @@ static ssize_t ant_state_show(struct class *class,
 }
 #ifdef CONFIG_MACH_XIAOMI_WAYNE
 static ssize_t ant_state_store(struct class *class,
-				struct class_attribute *attr, 
+				struct class_attribute *attr,
 					const char *buf,size_t size)
-{	
+{
 	int rc =0;
 	int state = 0;
 	rc = kstrtoint(buf, 10, &state);
@@ -144,9 +144,9 @@ static int ant_probe(struct platform_device *pdev)
 	int err;
 	struct ant_check_info *ant_info;
 	pr_err("Macle ant_probe\n");
-		
+
 	if (pdev->dev.of_node) {
-		ant_info = kzalloc(sizeof(struct ant_check_info), GFP_KERNEL);		  
+		ant_info = kzalloc(sizeof(struct ant_check_info), GFP_KERNEL);
 		if (!ant_info) {
 			pr_err("Macle %s: failed to alloc memory for module data\n",__func__);
 			return -ENOMEM;
@@ -172,7 +172,6 @@ static int ant_probe(struct platform_device *pdev)
 	ant_info->ipdev->name = "ant_check-input";
 	input_set_capability(ant_info->ipdev, EV_KEY, KEY_ANT_CONNECT);
 	input_set_capability(ant_info->ipdev, EV_KEY, KEY_ANT_UNCONNECT);
-	set_bit(INPUT_PROP_NO_DUMMY_RELEASE, ant_info->ipdev->propbit);
 	rc = input_register_device(ant_info->ipdev);
 	if (rc) {
 		pr_err("ant_probe: input_register_device fail rc=%d\n", rc);
@@ -180,8 +179,8 @@ static int ant_probe(struct platform_device *pdev)
 	}
 
 
-	
-	
+
+
 /*interrupt config*/
 	if (gpio_is_valid(ant_info->irq_gpio)) {
 		rc = gpio_request(ant_info->irq_gpio, "ant_check");
@@ -202,7 +201,7 @@ static int ant_probe(struct platform_device *pdev)
 		pr_err("Macle irq = %d\n", ant_info->irq);
 #ifdef CONFIG_MACH_XIAOMI_WAYNE
 		rc = request_irq(ant_info->irq,
-#else		
+#else
 		rc = devm_request_threaded_irq(&pdev->dev, ant_info->irq, NULL,
 #endif
 			ant_interrupt,
@@ -217,7 +216,7 @@ static int ant_probe(struct platform_device *pdev)
 #else
 		device_init_wakeup(&pdev->dev, true);
 		irq_set_irq_wake(ant_info->irq,1);
-#endif		
+#endif
 	}else{
 		pr_err("Macle irq gpio not provided\n");
 	        goto free_input_device;
@@ -272,7 +271,7 @@ static int ant_remove(struct platform_device *pdev)
 static struct of_device_id sn_match_table[] = {
 	{ .compatible = "ant_check", },
 	{ },
-}; 
+};
 
 static struct platform_driver ant_driver = {
 	.probe                = ant_probe,
